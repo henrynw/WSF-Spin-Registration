@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Register for WSF Spin</title>
+	<title>Validate a WSF Spin Number</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="stylesheet" href="bootstrap.css" media="screen">
@@ -43,7 +43,7 @@
 		
 			<div class="row">
 				<div class="col-lg-8 col-md-7 col-sm-6">
-					<h1>Register for WSF SPIN!</h1>
+					<h1>Validate a SPIN Number</h1>
 					<p class="lead"></p>
 				</div>
 			</div>
@@ -51,13 +51,16 @@
 		</div>
 
 		<p>
-		The purpose of this demonstration is to show how external platforms (such as tournament or league systems) can use the API that we've built to initiate SPIN number purchases, and then return the
-		user to the external platform once they've completed their payment.
+		The purpose of this demonstration is to show how the API can be used to validate a SPIN number entered in to an external platform. For example, an external tournament platform could ask a user for their last naem and SPIN number and then crosscheck it using the API.
 		</p>
 
-		<p>
-		The fields below could be filled in by the external platform (for example, if the user is logged in to that platform), but for the purposes of this demonstration, we'll let you type in the information.
-		</p>
+		<p>As a demo, there are only a couple of SPIN numbers to try...</p>
+
+		<ul>
+			<li>SPIN Number: 93052103. Last name: Shelley</li>
+			<li>SPIN Number: TEST98902729. Last name: Weber</li>
+			<li>If you use the <a href="/register.php">Register</a> feature, you can also use the SPIN number that you generate through that process.</li>
+		</ul>
 
 		<hr />
 
@@ -67,111 +70,54 @@
 			</div>
 		<?php endif; ?>
 
-		<form method="post" action="./spin.php">
-		<input type="hidden" name="action" value="register" />
+		<form method="post" action="./spin.php" id="spin_form">
+		<input type="hidden" name="action" value="validate" />
 
 			<?php foreach(array(
 				array(
-					'name' => 'first_name',
-					'label' => 'First Name',
+					'name' => 'spin_number',
+					'label' => 'SPIN Number (required)',
 					'required' => true,
 					'type' => 'input'
 				),
 				array(
-					'name' => 'middle_name',
-					'label' => 'Middle Name',
+					'name' => 'last_name',
+					'label' => 'Last Name (required)',
+					'required' => true,
 					'type' => 'input'
 				),
 				array(
-					'name' => 'last_name',
-					'label' => 'Last Name',
+					'type' => 'divider',
+					'text' => 'You only need to fill in the fields below if you want to validate the data against the API.'
+				),
+				array(
+					'name' => 'first_name',
+					'label' => 'First Name (optional)',
 					'type' => 'input'
 				),
 				array(
 					'name' => 'date_of_birth',
-					'label' => 'Date of Birth',
+					'label' => 'Date of Birth (optional)',
 					'type' => 'date_of_birth'
 				),
 				array(
 					'name' => 'gender',
-					'label' => 'Gender',
+					'label' => 'Gender (optional)',
 					'type' => 'gender'
-				),
-				array(
-					'name' => 'email',
-					'label' => 'Email',
-					'type' => 'email'
-				),
-				array(
-					'type' => 'divider'
-				),
-				array(
-					'name' => 'phone_cell',
-					'label' => 'Phone (Cell/Mobile)',
-					'type' => 'phone'
-				),
-				array(
-					'name' => 'phone_work',
-					'label' => 'Phone (Work)',
-					'type' => 'phone'
-				),
-				array(
-					'name' => 'phone_home',
-					'label' => 'Phone (Home)',
-					'type' => 'phone'
-				),
-				array(
-					'type' => 'divider'
-				),
-				array(
-					'name' => 'passport_country',
-					'label' => 'Country on your Passport',
-					'type' => 'country'
-				),
-				array(
-					'name' => 'representing_country',
-					'label' => 'Country that you represent',
-					'type' => 'country'
-				),
-				array(
-					'type' => 'divider'
-				),
-				array(
-					'name' => 'address_line_1',
-					'label' => 'Address Line 1',
-					'type' => 'input'
-				),
-				array(
-					'name' => 'address_line_2',
-					'label' => 'Address Line 2',
-					'type' => 'input'
-				),
-				array(
-					'name' => 'address_city',
-					'label' => 'City',
-					'type' => 'input'
-				),
-				array(
-					'name' => 'address_state',
-					'label' => 'State / Province',
-					'type' => 'input'
-				),
-				array(
-					'name' => 'address_postal_code',
-					'label' => 'Postal / ZIP Code',
-					'type' => 'input'
-				),
-				array(
-					'name' => 'address_country',
-					'label' => 'Country',
-					'type' => 'country'
-				),
-					
+				)
 			) AS $f): ?>
 
 			<?php if($f['type'] == 'input' || $f['type'] == 'email'): ?>
 				<div class="form-group row">
-					<label for="<?=$f['name']?>" class="col-sm-3 col-form-label"><?=$f['label']?></label>
+					<label for="<?=$f['name']?>" class="col-sm-3 col-form-label">
+						<?php if($f['required']): ?>
+							<strong>
+						<?php endif; ?>
+						<?=$f['label']?>
+						<?php if($f['required']): ?>
+							</strong>
+						<?php endif; ?>
+					</label>
 					<div class="col-sm-8">
 						<input type="<?=$f['type']?>" name="<?=$f['name']?>" class="form-control" id="<?=$f['name']?>" <?php if($f['required']): ?>required<?php endif; ?>>
 					</div>
@@ -491,6 +437,11 @@
 				</div>
 			<?php elseif($f['type'] == 'divider'): ?>
 				<br />
+				<?php if($f['text']): ?>
+					<?=$f['text']?>
+					<br />
+					<br />
+				<?php endif; ?>
 			<?php elseif($f['type'] == 'country'): ?>
 				<div class="form-group row">
 					<label for="<?=$f['name']?>" class="col-sm-3 col-form-label"><?=$f['label']?></label>
@@ -750,7 +701,7 @@
 				</div>	
 			<?php endif; ?>
 		<?php endforeach; ?>
-
+		
 		<div class="form-group row">
 			<div class="offset-sm-3 col-sm-9">
 				<button type="submit" class="btn btn-primary">Continue</button>
@@ -758,20 +709,30 @@
 		</div>
 
 		</form>
+	
+		<div class="spin_data alert alert-info" style="display:none;"></div>
 
 	</div>
-
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-	<br />
-
+	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+	<script type="text/javascript">
+
+		$(function() {
+
+			$("#spin_form").submit(function(e) {
+
+				e.preventDefault();
+
+				$.post('spin.php', $("#spin_form").serializeArray(), function(data) {
+					$(".spin_data").html(data.html).show();
+				});
+
+			});
+
+		});
+
+	</script>
 
 </body>
 </html>
