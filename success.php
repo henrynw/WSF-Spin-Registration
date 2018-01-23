@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>WSF SPIN API Demo</title>
+	<title>Register for WSF Spin</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<link rel="stylesheet" href="bootstrap.css" media="screen">
@@ -43,7 +43,7 @@
 		
 			<div class="row">
 				<div class="col-lg-8 col-md-7 col-sm-6">
-					<h1>WSF SPIN API Demo</h1>
+					<h1>SPIN Number Registered!</h1>
 					<p class="lead"></p>
 				</div>
 			</div>
@@ -51,25 +51,31 @@
 		</div>
 
 
-		<br />
+		<div class="alert alert-success">
+			<strong>Congratulations!</strong>
+			Your SPIN number is <?=$_REQUEST['spin_number']?>
+		</div>
 
-		<p>
-		This demo is designed to show you how an external platform can communicate with the SPIN API to perform the following actions:
-		</p>
+		<div class="alert alert-info">
 
-		<ul>
-			<li>
-				<a href="validate.php"><strong>Validate a SPIN Number</strong></a><br />
-				This will confirm that a given SPIN number exists and that it matches the last name provided.
-				<br />
-				<br />
-			</li>
-			<li>
-				<a href="register.php"><strong>Register a new SPIN Number</strong></a><br />
-				This will let external systems initiate a SPIN number purchase from start to finish.
-				<br />
-			</li>
-		</ul>
+			<p>
+				<strong>Demo Notes:</strong>
+			</p>
+
+			<p>
+				This is the end of the demo, but here is what just happened:
+			</p>
+
+			<ul>
+
+				<li>After you submitted the form on the first page, the data was sent to the API.</li>
+				<li>The API verified the data, added a record and then returned a unique payment URL to this system.</li>
+				<li>This system then redirected you to a secure page to complete your payment.</li>
+				<li>Once you completed payment and the API verified it, you were returned here with your brand new SPIN number.</li>
+				<li>In the SPIN database (on SportyHQ), you're now registered and all of your details are available either via the SportyHQ interface, or via the API.</li>
+			</ul>
+		
+		</div>
 
 	</div>
 
